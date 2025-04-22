@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import ProductModal from "../../ProductModal/ProductModal";
 
 const NewDishesSection = () => {
@@ -121,7 +120,28 @@ const newDishes = [
     image: "png6.png",
     price: 55000,
   },
-  // ... (thêm các sản phẩm khác với ID duy nhất)
+  {
+    id: 3, // ID duy nhất
+    name: "Mì Ý Sốt Kem Hải Sản",
+    description: "Sợi mì dai ngon hòa quyện cùng sốt kem béo ngậy và hải sản tươi rói...",
+    image: "png7.png",
+    price: 150000,
+    salePrice: 125000,
+  },
+  {
+    id: 4, // ID duy nhất
+    name: "Cơm Chiên Dương Châu Đặc Biệt",
+    description: "Hạt cơm tơi vàng, đậm đà hương vị với tôm, trứng, lạp xưởng...",
+    image: "png8.png",
+    price: 85000,
+  },
+  {
+    id: 5, // ID duy nhất
+    name: "Mojito Chanh Bạc Hà",
+    description: "Thức uống giải nhiệt tuyệt vời với vị chua thanh của chanh và hương thơm mát của bạc hà...",
+    image: "png9.png",
+    price: 45000,
+  },
 ];
 
 export default NewDishesSection;
