@@ -1,6 +1,9 @@
 import { Route, Routes } from "react-router-dom"
 import Login from "./Login"
 import Register from "./Register"
+import ForgotPassword from "./ForgotPassword"
+import OTPVerify from "./OTPVerify"
+import ResetPassword from "./ResetPassword"
 
 const WrapForm = () => {
   return (
@@ -8,6 +11,9 @@ const WrapForm = () => {
       <Routes>
         <Route path="Login" element = {<Login/>}/>
         <Route path="Register" element = {<Register/>}/>
+        <Route path="forgotpassword" element = {<ForgotPassword/>}/>
+        <Route path="otp-verify" element = {<OTPVerify/>}/>
+        <Route path="resetpassword" element = {<ResetPassword/>}/>
       </Routes>
     </div>
   )

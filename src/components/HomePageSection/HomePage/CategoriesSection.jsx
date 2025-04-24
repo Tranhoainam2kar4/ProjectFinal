@@ -11,7 +11,7 @@ const NewDishesSection = () => {
   const handleTryNowClick = (dish) => {
     setSelectedDish({
       ...dish,
-      id: dish.id || Date.now() // Đảm bảo luôn có ID
+      id: dish.id || Date.now()
     });
     setIsModalOpen(true);
   };
@@ -22,12 +22,6 @@ const NewDishesSection = () => {
 
   return (
     <section className="px-6 md:px-20 py-20 bg-white relative">
-      <ProductModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        product={selectedDish}
-      />
-
       <div className="text-center mb-20">
         <h2 className="text-4xl md:text-5xl font-extrabold text-orange-600 relative inline-block">
           <span className="relative z-10">🍽️ Món Mới Nổi Bật</span>
@@ -100,6 +94,11 @@ const NewDishesSection = () => {
           );
         })}
       </div>
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        product={selectedDish}
+      />
     </section>
   );
 };

@@ -140,7 +140,7 @@ img {
 .slider1-wrapper .swiper-slide-active .text-box p {
   transform: translateY(0);
   opacity: 1;
-  transition: 1.5s ease;
+  transition: 1s ease;
   transition-delay: 1s;
 }
 
@@ -181,7 +181,7 @@ img {
 .slider1-wrapper .swiper-slide-active .category span {
   opacity: 1;
   transition: 0.8s ease-out;
-  transition-delay: calc(1.5s + var(--i) * 0.4s);
+  transition-delay: 1s;
 }
 
 .slider1-wrapper .my_btn {
@@ -201,7 +201,7 @@ img {
 .slider1-wrapper .swiper-slide-active .my_btn {
   opacity: 1;
   transition: 0.8s ease-out;
-  transition-delay: 3s;
+  transition-delay: 1s;
 }
 
 .slider1-wrapper .label {

@@ -99,8 +99,8 @@ const CartPage = () => {
               </span>
             </div>
 
-            <button className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-lg font-bold hover:shadow-lg">
-              Thanh toán
+            <button className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-lg font-bold hover:shadow-lg cursor-pointer">
+              Đặt hàng
             </button>
           </div>
         )}

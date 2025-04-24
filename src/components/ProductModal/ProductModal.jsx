@@ -2,12 +2,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaShoppingCart } from "react-icons/fa";
 import { useAppContext } from "../../context/AppProvider";
 
-const ProductModal = ({ isOpen, onClose, product }) => {
+const ProductModal = ({ isOpen, onClose, product, customPositionClass = "" }) => {
   const { addToCart } = useAppContext();
 
   const handleAddToCart = () => {
     if (!product) return;
-    
+  
+    const user = JSON.parse(localStorage.getItem("user"));
+  
+    if (!user) {
+      alert("Vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ hàng!");
+      return;
+    }
+  
     addToCart({
       id: product.id,
       name: product.name,
@@ -16,8 +23,10 @@ const ProductModal = ({ isOpen, onClose, product }) => {
       description: product.description,
       category: product.category
     });
+  
     onClose();
   };
+  
 
   return (
     <AnimatePresence>
@@ -33,7 +42,8 @@ const ProductModal = ({ isOpen, onClose, product }) => {
           />
 
           <motion.div
-            className="fixed z-50 top-1/2 left-1/2 w-[90vw] md:w-[80vw] lg:w-[70vw] max-w-4xl h-[75vh] min-h-[500px] max-h-[750px] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl overflow-hidden flex flex-col"
+            className={`fixed z-50 w-[90vw] md:w-[80vw] lg:w-[70vw] max-w-4xl h-[75vh] min-h-[500px] max-h-[750px] transform bg-white rounded-lg shadow-xl overflow-hidden flex flex-col
+            ${customPositionClass || "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"}`}
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}

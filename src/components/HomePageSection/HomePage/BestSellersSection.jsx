@@ -11,7 +11,7 @@ const bestSellers = [
     image: "food1.jpg",
     detailImage: "food2.jpg",
     description: "Cơm tấm truyền thống với sườn nướng, bì, chả và đồ chua",
-    category: "BestSellers"
+    category: "BestSellers",
   },
   {
     id: "best-2",
@@ -20,7 +20,7 @@ const bestSellers = [
     image: "food2.jpg",
     detailImage: "food3.jpg",
     description: "Mì ramen cay với thịt heo, trứng và rau củ",
-    category: "BestSellers"
+    category: "BestSellers",
   },
   {
     id: "best-3",
@@ -29,7 +29,7 @@ const bestSellers = [
     image: "food3.jpg",
     detailImage: "food4.jpg",
     description: "Trà sữa thơm ngon kèm trân châu dai mềm",
-    category: "BestSellers"
+    category: "BestSellers",
   },
   {
     id: "best-4",
@@ -38,7 +38,7 @@ const bestSellers = [
     image: "food4.jpg",
     detailImage: "food5.jpg",
     description: "Bún bò Huế đậm đà hương vị với giò heo, huyết và rau sống",
-    category: "BestSellers"
+    category: "BestSellers",
   },
   {
     id: "best-5",
@@ -47,7 +47,7 @@ const bestSellers = [
     image: "food5.jpg",
     detailImage: "food6.jpg",
     description: "Miếng gà rán giòn rụm, tẩm ướp gia vị cay nồng hấp dẫn",
-    category: "BestSellers"
+    category: "BestSellers",
   },
   {
     id: "best-6",
@@ -55,8 +55,9 @@ const bestSellers = [
     price: 90000,
     image: "food6.jpg",
     detailImage: "food7.jpg",
-    description: "Phở bò truyền thống với thịt bò tái, nạm, gầu và nước dùng đậm đà",
-    category: "BestSellers"
+    description:
+      "Phở bò truyền thống với thịt bò tái, nạm, gầu và nước dùng đậm đà",
+    category: "BestSellers",
   },
 ];
 
@@ -66,9 +67,17 @@ export default function BestSellersSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddToCart = (product) => {
+    if (!product) return;
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      alert("Vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ hàng!");
+      return;
+    }
     addToCart({
       ...product,
-      price: Number(product.price)
+      price: Number(product.price),
     });
   };
 
@@ -93,7 +102,7 @@ export default function BestSellersSection() {
             className="relative group rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-all"
           >
             {/* Image Section */}
-            <div 
+            <div
               className="relative h-64 overflow-hidden cursor-pointer"
               onClick={() => handleViewDetail(item)}
             >
@@ -128,9 +137,9 @@ export default function BestSellersSection() {
 
               <div className="flex items-center justify-between mt-2">
                 <p className="text-lg font-bold text-amber-600">
-                  {item.price.toLocaleString('vi-VN')}₫
+                  {item.price.toLocaleString("vi-VN")}₫
                 </p>
-                <button 
+                <button
                   onClick={(e) => {
                     e.stopPropagation();
                     handleAddToCart(item);
