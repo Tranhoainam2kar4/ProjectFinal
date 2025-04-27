@@ -8,6 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import ProductModal from "../ProductModal/ProductModal";
 import { useAppContext } from "../../context/AppProvider";
+import { Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 const mockProducts = [
   {
@@ -426,18 +428,10 @@ const Header = () => {
             {/* User Avatar or Login */}
             {user ? (
               <div className="relative flex items-center gap-2" ref={dropdownRef}>
-                <img
-                  src={user.avatar}
-                  alt="avatar"
+                <Avatar
+                  icon={<UserOutlined />}
+                  className="bg-orange-500 cursor-pointer"
                   onClick={() => setShowDropdown(!showDropdown)}
-                  style={{  
-                    width: "35px",
-                    height: "35px",
-                    borderRadius: "9999px",
-                    objectFit: "cover",
-                    border: "2px solid #fb923c",
-                    cursor: "pointer"
-                  }} 
                 />
                 <span className="text-sm font-medium text-gray-700">{user.name}</span>
                 {showDropdown && (
@@ -448,6 +442,12 @@ const Header = () => {
                       onClick={() => setShowDropdown(false)}
                     >
                       Chỉnh sửa thông tin
+                    </Link>
+                    <Link
+                      to="/userorder"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Đơn hàng của tôi
                     </Link>
                     <button
                       onClick={() => {

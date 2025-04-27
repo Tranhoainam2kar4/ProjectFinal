@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Card, Button, Tag, Modal, Select } from "antd";
-import { FaEdit } from "react-icons/fa";
+import { Card, Button, Tag, Modal, Select, Space } from "antd";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const initialOrders = [
   {
@@ -31,9 +31,7 @@ const initialOrders = [
     date: "2025-04-15",
     status: "Đã hủy",
     total: "150.000₫",
-    items: [
-      { name: "Mì Ý", quantity: 1 },
-    ],
+    items: [{ name: "Mì Ý", quantity: 1 }],
   },
 ];
 
@@ -41,6 +39,9 @@ const OrderCardList = () => {
   const [orders, setOrders] = useState(initialOrders);
   const [editingOrder, setEditingOrder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [deleteAllModalVisible, setDeleteAllModalVisible] = useState(false);
+  const [orderToDelete, setOrderToDelete] = useState(null);
 
   const showEditModal = (order) => {
     setEditingOrder({ ...order });
@@ -59,21 +60,58 @@ const OrderCardList = () => {
     setEditingOrder(null);
   };
 
+  const confirmDelete = (order) => {
+    setOrderToDelete(order);
+    setDeleteModalVisible(true);
+  };
+
+  const handleDeleteConfirmed = () => {
+    setOrders((prev) => prev.filter((o) => o.id !== orderToDelete.id));
+    setDeleteModalVisible(false);
+    setOrderToDelete(null);
+  };
+
+  const confirmDeleteAll = () => {
+    setDeleteAllModalVisible(true);
+  };
+
+  const handleDeleteAllConfirmed = () => {
+    setOrders([]);
+    setDeleteAllModalVisible(false);
+  };
+
   return (
     <>
+      <div className="flex justify-end mb-4">
+        <Button danger type="primary" onClick={confirmDeleteAll}>
+          Xóa tất cả đơn hàng
+        </Button>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {orders.map((order) => (
           <Card
             key={order.id}
             title={`Đơn hàng ${order.id}`}
+            variant="outlined"
             extra={
-              <Button
-                icon={<FaEdit />}
-                size="small"
-                onClick={() => showEditModal(order)}
-              >
-                Tùy chỉnh
-              </Button>
+              <Space>
+                <Button
+                  icon={<FaEdit />}
+                  size="small"
+                  onClick={() => showEditModal(order)}
+                >
+                  Tùy chỉnh
+                </Button>
+                <Button
+                  icon={<FaTrash />}
+                  size="small"
+                  danger
+                  onClick={() => confirmDelete(order)}
+                >
+                  Xóa
+                </Button>
+              </Space>
             }
           >
             <p><strong>Khách hàng:</strong> {order.customer}</p>
@@ -105,6 +143,7 @@ const OrderCardList = () => {
         ))}
       </div>
 
+      {/* Modal chỉnh sửa */}
       <Modal
         title="Tùy chỉnh đơn hàng"
         open={isModalVisible}
@@ -129,6 +168,32 @@ const OrderCardList = () => {
             />
           </div>
         )}
+      </Modal>
+
+      {/* Modal xác nhận xóa một đơn hàng */}
+      <Modal
+        open={deleteModalVisible}
+        title="Xác nhận xóa đơn hàng"
+        onOk={handleDeleteConfirmed}
+        onCancel={() => setDeleteModalVisible(false)}
+        okText="Xóa"
+        cancelText="Hủy"
+        okButtonProps={{ danger: true }}
+      >
+        <p>Bạn có chắc chắn muốn xóa đơn hàng <strong>{orderToDelete?.id}</strong> không?</p>
+      </Modal>
+
+      {/* Modal xác nhận xóa tất cả */}
+      <Modal
+        open={deleteAllModalVisible}
+        title="Xác nhận xóa tất cả đơn hàng"
+        onOk={handleDeleteAllConfirmed}
+        onCancel={() => setDeleteAllModalVisible(false)}
+        okText="Xóa tất cả"
+        cancelText="Hủy"
+        okButtonProps={{ danger: true }}
+      >
+        <p>Bạn có chắc chắn muốn xóa <strong>tất cả đơn hàng</strong> không?</p>
       </Modal>
     </>
   );

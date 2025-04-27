@@ -1,39 +1,66 @@
-// src/context/AppProvider.jsx
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-  
-    // Nếu có user thì dùng, nếu không thì tạo user giả
-    if (storedUser) return JSON.parse(storedUser);
-  
-    const fakeUser = {
-      name: "Nguyen Van A",
-      avatar: "https://i.pravatar.cc/150?img=3",
-      email: "test@example.com",
-    };
-    localStorage.setItem("user", JSON.stringify(fakeUser));
-    return fakeUser;
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem("cartItems");
+    return savedCart ? JSON.parse(savedCart) : [];
   });
   
+  const [userOrders, setUserOrders] = useState(() => {
+    const savedOrders = localStorage.getItem("userOrders");
+    return savedOrders ? JSON.parse(savedOrders) : [];
+  });
+  
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   const isLoggedIn = !!user;
+  const hasMounted = useRef(false);
+
+  useEffect(() => {
+    if (hasMounted.current) {
+      if (user) {
+        localStorage.setItem("user", JSON.stringify(user));
+      } else {
+        localStorage.removeItem("user");
+      }
+    } else {
+      hasMounted.current = true;
+    }
+  }, [user]);
+
+  useEffect(() => {
+    localStorage.setItem("userOrders", JSON.stringify(userOrders));
+  }, [userOrders]);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const checkUserInfoComplete = () => {
+    if (!user) return false;
+    const requiredFields = ['name', 'phone', 'district', 'ward', 'streetAddress'];
+    return requiredFields.every(field => user[field] && user[field].trim() !== '');
+  };
 
   const login = (userData) => {
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
     toast.success("Đăng nhập thành công!");
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
-    toast.info("Đã đăng xuất!");
+    toast.success("Đăng xuất thành công!");
+  };
+
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    toast.success("Cập nhật thông tin thành công!");
   };
 
   const addToCart = (product) => {
@@ -42,12 +69,10 @@ export const AppProvider = ({ children }) => {
       return;
     }
 
-    // Kiểm tra xem sản phẩm đã có trong giỏ hay chưa
     const existingItem = cartItems.find(
       (item) => item.id === product.id && item.category === product.category
     );
 
-    // Cập nhật giỏ hàng
     setCartItems((prev) => {
       if (existingItem) {
         return prev.map((item) =>
@@ -67,7 +92,6 @@ export const AppProvider = ({ children }) => {
       }
     });
 
-    // Toast chỉ gọi **một lần** sau khi setCartItems được kích hoạt
     if (existingItem) {
       toast.success(`Đã tăng số lượng "${product.name}" trong giỏ hàng!`);
     } else {
@@ -98,6 +122,41 @@ export const AppProvider = ({ children }) => {
     );
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    toast.success("Giỏ hàng đã được làm sạch!");
+  };
+
+  const placeOrder = () => {
+    if (cartItems.length === 0) {
+      toast.error("Giỏ hàng đang trống!");
+      return;
+    }
+
+    if (!checkUserInfoComplete()) {
+      toast.error("Vui lòng cập nhật đầy đủ thông tin cá nhân trước khi đặt hàng!");
+      return;
+    }
+
+    const newOrder = {
+      id: `ORD${Date.now()}`,
+      date: new Date().toLocaleString('vi-VN'),
+      total: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
+      status: "Đang xử lý",
+      items: cartItems.map(item => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      address: `${user.streetAddress}, ${user.ward}, ${user.district}`
+    };
+
+    setUserOrders((prev) => [...prev, newOrder]);
+    setCartItems([]);
+    toast.success("Đặt hàng thành công!");
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -105,11 +164,16 @@ export const AppProvider = ({ children }) => {
         isLoggedIn,
         login,
         logout,
+        updateUser,
         cartItems,
         addToCart,
         removeFromCart,
         increaseQuantity,
         decreaseQuantity,
+        userOrders,
+        placeOrder,
+        clearCart,
+        checkUserInfoComplete,
       }}
     >
       {children}

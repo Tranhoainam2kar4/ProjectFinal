@@ -30,6 +30,7 @@ import ForgotPassword from "./components/Form/ForgotPassword";
 import OTPVerify from "./components/Form/OTPVerify";
 import ResetPassword from "./components/Form/ResetPassword";
 import EditProfile from "./pages/EditProfilePage/EditProfile";
+import UserOrder from "./pages/UserOrder/UserOrder";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,8 @@ const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "/category/:categoryName", element: <CategoryPage /> },
       { path: "/cart", element: <CartPage /> },
-      { path: "/editprofile", element: <EditProfile/>}
+      { path: "/editprofile", element: <EditProfile/>},
+      { path: '/userorder', element: <UserOrder/>}
     ],
   },
   {
