@@ -21,19 +21,23 @@ const ResetPassword = () => {
     }
 
     try {
-      const res = await fetch('/api/reset-password', {
+      const res = await fetch('http://localhost:8080/api/v1/forgot-password/reset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newPassword }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Đặt lại mật khẩu thất bại');
 
-      toast.success('Mật khẩu đã được đặt lại thành công!');
-      navigate('/login');
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success(data.message || 'Mật khẩu đã được đặt lại thành công!');
+        navigate('/login');
+      } else {
+        toast.error(data.message || 'Đặt lại mật khẩu thất bại');
+      }
     } catch (err) {
       console.error(err);
-      toast.error(err.message);
+      toast.error('Có lỗi xảy ra. Vui lòng thử lại!');
     }
   };
 

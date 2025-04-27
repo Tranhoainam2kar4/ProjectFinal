@@ -3,7 +3,6 @@ import { IoFastFoodSharp } from "react-icons/io5";
 import {
   MdOutlineCategory,
   MdOutlineDashboard,
-  MdOutlineMessage,
   MdOutlineShoppingCart,
 } from "react-icons/md";
 import { TbBrandProducthunt } from "react-icons/tb";
@@ -48,7 +47,6 @@ const SidebarContent = ({ setShow }) => {
     { icon: <TbBrandProducthunt />, label: "Product", name: "product" },
     { icon: <MdOutlineShoppingCart />, label: "Order", name: "order" },
     { icon: <FaRegUser />, label: "User", name: "user" },
-    { icon: <MdOutlineMessage />, label: "Message", name: "message" },
   ];
 
   return (

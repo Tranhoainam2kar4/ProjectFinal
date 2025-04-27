@@ -10,317 +10,7 @@ import ProductModal from "../ProductModal/ProductModal";
 import { useAppContext } from "../../context/AppProvider";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-
-const mockProducts = [
-  {
-    id: 1,
-    name: "Cơm gà xối mỡ",
-    category: "Cơm",
-    img: "/food1.jpg",
-    price: 45000,
-  },
-  { id: 2, name: "Phở bò", category: "Phở", img: "/food2.jpg", price: 50000 },
-  {
-    id: 3,
-    name: "Bánh mì thịt",
-    category: "Bánh mì",
-    img: "/food3.jpg",
-    price: 25000,
-  },
-  {
-    id: 4,
-    name: "Bún bò Huế",
-    category: "Bún",
-    img: "/food4.jpg",
-    price: 48000,
-  },
-  {
-    id: 5,
-    name: "Hủ tiếu Nam Vang",
-    category: "Hủ tiếu",
-    img: "/food5.jpg",
-    price: 52000,
-  },
-  { id: 6, name: "Mì Quảng", category: "Mì", img: "/food6.jpg", price: 47000 },
-  {
-    id: 7,
-    name: "Bánh xèo",
-    category: "Bánh",
-    img: "/food7.jpg",
-    price: 40000,
-  },
-  {
-    id: 8,
-    name: "Gỏi cuốn",
-    category: "Khai vị",
-    img: "/food8.jpg",
-    price: 30000,
-  },
-  {
-    id: 9,
-    name: "Chả giò",
-    category: "Khai vị",
-    img: "/food10.jpg",
-    price: 35000,
-  },
-  {
-    id: 10,
-    name: "Cơm tấm sườn",
-    category: "Cơm",
-    img: "/food1.jpg",
-    price: 50000,
-  },
-  {
-    id: 11,
-    name: "Cơm chiên dương châu",
-    category: "Cơm",
-    img: "/food2.jpg",
-    price: 48000,
-  },
-  { id: 12, name: "Phở gà", category: "Phở", img: "/food3.jpg", price: 45000 },
-  {
-    id: 13,
-    name: "Bánh mì xíu mại",
-    category: "Bánh mì",
-    img: "/food4.jpg",
-    price: 27000,
-  },
-  {
-    id: 14,
-    name: "Bún riêu",
-    category: "Bún",
-    img: "/food5.jpg",
-    price: 47000,
-  },
-  {
-    id: 15,
-    name: "Hủ tiếu xào",
-    category: "Hủ tiếu",
-    img: "/food6.jpg",
-    price: 49000,
-  },
-  {
-    id: 16,
-    name: "Mì xào giòn",
-    category: "Mì",
-    img: "/food7.jpg",
-    price: 45000,
-  },
-  {
-    id: 17,
-    name: "Bánh bèo",
-    category: "Bánh",
-    img: "/food8.jpg",
-    price: 32000,
-  },
-  {
-    id: 18,
-    name: "Nem nướng",
-    category: "Khai vị",
-    img: "/food10.jpg",
-    price: 37000,
-  },
-  {
-    id: 19,
-    name: "Cơm gà Hải Nam",
-    category: "Cơm",
-    img: "/food5.jpg",
-    price: 52000,
-  },
-  {
-    id: 20,
-    name: "Phở cuốn",
-    category: "Phở",
-    img: "/food1.jpg",
-    price: 38000,
-  },
-  {
-    id: 21,
-    name: "Bánh mì chảo",
-    category: "Bánh mì",
-    img: "/food2.jpg",
-    price: 29000,
-  },
-  { id: 22, name: "Bún mắm", category: "Bún", img: "/food3.jpg", price: 49000 },
-  {
-    id: 23,
-    name: "Hủ tiếu mực",
-    category: "Hủ tiếu",
-    img: "/food4.jpg",
-    price: 53000,
-  },
-  {
-    id: 24,
-    name: "Mì vịt tiềm",
-    category: "Mì",
-    img: "/food5.jpg",
-    price: 60000,
-  },
-  {
-    id: 25,
-    name: "Bánh ướt",
-    category: "Bánh",
-    img: "/food6.jpg",
-    price: 35000,
-  },
-  {
-    id: 26,
-    name: "Chạo tôm",
-    category: "Khai vị",
-    img: "/food7.jpg",
-    price: 37000,
-  },
-  {
-    id: 27,
-    name: "Cơm chiên cá mặn",
-    category: "Cơm",
-    img: "/food8.jpg",
-    price: 52000,
-  },
-  {
-    id: 28,
-    name: "Phở xào",
-    category: "Phở",
-    img: "/food10.jpg",
-    price: 47000,
-  },
-  {
-    id: 29,
-    name: "Bánh mì pate",
-    category: "Bánh mì",
-    img: "/food5.jpg",
-    price: 27000,
-  },
-  {
-    id: 30,
-    name: "Bún đậu mắm tôm",
-    category: "Bún",
-    img: "/food1.jpg",
-    price: 45000,
-  },
-  {
-    id: 31,
-    name: "Hủ tiếu hải sản",
-    category: "Hủ tiếu",
-    img: "/food2.jpg",
-    price: 55000,
-  },
-  {
-    id: 32,
-    name: "Mì hoành thánh",
-    category: "Mì",
-    img: "/food3.jpg",
-    price: 50000,
-  },
-  {
-    id: 33,
-    name: "Bánh cuốn",
-    category: "Bánh",
-    img: "/food4.jpg",
-    price: 36000,
-  },
-  {
-    id: 34,
-    name: "Gỏi đu đủ khô bò",
-    category: "Khai vị",
-    img: "/food5.jpg",
-    price: 38000,
-  },
-  {
-    id: 35,
-    name: "Cơm gà curry",
-    category: "Cơm",
-    img: "/food6.jpg",
-    price: 54000,
-  },
-  {
-    id: 36,
-    name: "Phở chay",
-    category: "Phở",
-    img: "/food7.jpg",
-    price: 42000,
-  },
-  {
-    id: 37,
-    name: "Bánh mì xá xíu",
-    category: "Bánh mì",
-    img: "/food8.jpg",
-    price: 28000,
-  },
-  {
-    id: 38,
-    name: "Bún chả Hà Nội",
-    category: "Bún",
-    img: "/food10.jpg",
-    price: 49000,
-  },
-  {
-    id: 39,
-    name: "Hủ tiếu khô",
-    category: "Hủ tiếu",
-    img: "/food5.jpg",
-    price: 50000,
-  },
-  { id: 40, name: "Mì Ý", category: "Mì", img: "/food1.jpg", price: 58000 },
-  {
-    id: 41,
-    name: "Bánh căn",
-    category: "Bánh",
-    img: "/food2.jpg",
-    price: 37000,
-  },
-  {
-    id: 42,
-    name: "Gỏi ngó sen",
-    category: "Khai vị",
-    img: "/food3.jpg",
-    price: 39000,
-  },
-  {
-    id: 43,
-    name: "Cơm chiên trứng",
-    category: "Cơm",
-    img: "/food4.jpg",
-    price: 44000,
-  },
-  {
-    id: 44,
-    name: "Phở bò viên",
-    category: "Phở",
-    img: "/food5.jpg",
-    price: 47000,
-  },
-  {
-    id: 45,
-    name: "Bánh mì chà bông",
-    category: "Bánh mì",
-    img: "/food6.jpg",
-    price: 27000,
-  },
-  { id: 46, name: "Bún mọc", category: "Bún", img: "/food7.jpg", price: 46000 },
-  {
-    id: 47,
-    name: "Hủ tiếu gà",
-    category: "Hủ tiếu",
-    img: "/food8.jpg",
-    price: 49000,
-  },
-  { id: 48, name: "Mì gà", category: "Mì", img: "/food10.jpg", price: 52000 },
-  {
-    id: 49,
-    name: "Bánh hỏi",
-    category: "Bánh",
-    img: "/food5.jpg",
-    price: 38000,
-  },
-  {
-    id: 50,
-    name: "Gỏi bưởi",
-    category: "Khai vị",
-    img: "/food1.jpg",
-    price: 40000,
-  },
-];
+import { Link as ScrollLink } from "react-scroll";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -335,7 +25,7 @@ const Header = () => {
   const dropdownRef = useRef(null);
 
   const { user, logout } = useAppContext();
-  const categories = ["Hot", "Rice", "Noodle", "Bread", "Beverage"];
+  const categories = ["Home", "New", "Hot", "About Us"];
   const navigate = useNavigate();
 
   const handleCartClick = () => {
@@ -405,9 +95,15 @@ const Header = () => {
             <ul className="flex items-center justify-center gap-6 text-gray-700 font-medium">
               {categories.map((item) => (
                 <li key={item}>
-                  <Link to={`/category/${item}`} className="hover:text-orange-600 transition">
+                  <ScrollLink
+                    to={item.toLowerCase().replace(/\s+/g, '-')}
+                    smooth={true}
+                    duration={500}
+                    offset={-80}
+                    className="hover:text-orange-600 transition cursor-pointer"
+                  >
                     {item}
-                  </Link>
+                  </ScrollLink>
                 </li>
               ))}
             </ul>
@@ -415,8 +111,8 @@ const Header = () => {
 
           {/* Right Side */}
           <div className="flex items-center justify-center md:justify-end gap-2 md:gap-4 w-full md:w-auto mt-2 md:mt-0">
-            {/* Search Icon */}
-            <div onClick={() => { setSearchOpen(!searchOpen); setSearchTerm(""); }} className="text-xl text-gray-600 px-3 py-2 cursor-pointer hover:text-orange-600 transition-colors hidden md:block">
+            {/* Search Icon - Hiển thị trên cả mobile và desktop */}
+            <div onClick={() => { setSearchOpen(!searchOpen); setSearchTerm(""); }} className="text-xl text-gray-600 px-3 py-2 cursor-pointer hover:text-orange-600 transition-colors">
               <CiSearch />
             </div>
 
@@ -425,7 +121,7 @@ const Header = () => {
               <PiShoppingCartThin />
             </button>
 
-            {/* User Avatar or Login */}
+            {/* User Avatar or Login - Hiển thị trên cả mobile và desktop */}
             {user ? (
               <div className="relative flex items-center gap-2" ref={dropdownRef}>
                 <Avatar
@@ -433,7 +129,7 @@ const Header = () => {
                   className="bg-orange-500 cursor-pointer"
                   onClick={() => setShowDropdown(!showDropdown)}
                 />
-                <span className="text-sm font-medium text-gray-700">{user.name}</span>
+                <span className="hidden md:inline text-sm font-medium text-gray-700">{user.name}</span>
                 {showDropdown && (
                   <div className="absolute mt-36 w-48 bg-white rounded-md shadow-md z-10">
                     <Link
@@ -453,7 +149,7 @@ const Header = () => {
                       onClick={() => {
                         logout();
                         setShowDropdown(false);
-                        navigate('/login')
+                        navigate('/login');
                       }}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                     >
@@ -463,7 +159,7 @@ const Header = () => {
                 )}
               </div>
             ) : (
-              <button className="hover:bg-orange-600 text-orange-600 font-semibold hover:text-white rounded-md border-2 border-orange-600 px-6 py-2 duration-200 hidden md:block cursor-pointer">
+              <button className="hover:bg-orange-600 text-orange-600 font-semibold hover:text-white rounded-md border-2 border-orange-600 px-4 md:px-6 py-2 duration-200 cursor-pointer">
                 <Link to="/login">Đăng nhập</Link>
               </button>
             )}
@@ -509,14 +205,11 @@ const Header = () => {
                 {searchResults.map((item) => (
                   <div key={item.id} className="flex items-center gap-3 px-4 py-3 hover:bg-orange-50 border-b border-gray-100 last:border-b-0 cursor-pointer" onClick={() => openProductModal(item)}>
                     <div className="flex-shrink-0 w-10 h-10">
-                      <img src={item.img} alt={item.name} className="w-full h-full object-cover rounded" />
+                      <img src={item.img} alt={item.name} className="w-full h-full object-cover rounded-full" />
                     </div>
-                    <div className="flex-1 flex flex-col justify-center">
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold text-base">{item.name}</span>
-                        <span className="text-base font-bold text-orange-600">{item.price.toLocaleString()}₫</span>
-                      </div>
-                      <span className="text-sm text-gray-500">{item.category}</span>
+                    <div>
+                      <p className="text-sm font-medium">{item.name}</p>
+                      <p className="text-xs text-gray-500">{item.category}</p>
                     </div>
                   </div>
                 ))}
@@ -527,22 +220,12 @@ const Header = () => {
       )}
 
       {/* Product Modal */}
-      <ProductModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        product={{
-          id: selectedProduct?.id,
-          name: selectedProduct?.name,
-          price: selectedProduct?.price,
-          image: selectedProduct?.img,
-          description: "Mô tả sản phẩm đang được cập nhật...",
-          category: selectedProduct?.category,
-        }}
-        customPositionClass="top-22 left-1/2 -translate-x-1/2"
-      />
+      {isModalOpen && selectedProduct && (
+        <ProductModal product={selectedProduct} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      )}
 
-      {/* Responsive menu */}
-      <ResponsiveMenu open={open} setOpen={setOpen} />
+      {/* Mobile Menu */}
+      <ResponsiveMenu isOpen={open} setOpen={setOpen} />
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-
+import {useNavigate} from "react-router-dom";
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,20 +14,26 @@ const ForgotPassword = () => {
     }
 
     try {
-      const res = await fetch('/api/forgot-password', {
+      const res = await fetch('http://localhost:8080/api/v1/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Email không hợp lệ');
 
-      toast.success('Mã OTP đã được gửi đến email của bạn!');
+      const data = await res.json(); // luôn cố gắng đọc json
+
+      if (res.ok) {
+        toast.success(data.message || 'Mã OTP đã được gửi đến email!');
+        navigate('/otp-verify')
+      } else {
+        toast.error(data.message || 'Email không hợp lệ!');
+      }
     } catch (err) {
       console.error(err);
-      toast.error(err.message);
+      toast.error('Đã có lỗi xảy ra. Vui lòng thử lại!');
     }
   };
+
 
   return (
     <div className="border border-slate-400 rounded-md md:p-8 p-6 backdrop-blur-lg bg-slate-800/30 relative transition-all duration-200 w-[300px] sm:w-[340px] md:w-[380px] mx-auto">

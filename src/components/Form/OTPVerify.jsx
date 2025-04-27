@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import {useNavigate} from "react-router-dom";
 
 const OTPVerify = () => {
   const [otp, setOtp] = useState('');
   const [submitted, setSubmitted] = useState(false);
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
@@ -15,7 +16,7 @@ const OTPVerify = () => {
     }
 
     try {
-      const res = await fetch('/api/verify-otp', {
+      const res = await fetch('http://localhost:8080/api/v1/forgot-password/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ otp }),
@@ -24,7 +25,7 @@ const OTPVerify = () => {
       if (!res.ok) throw new Error(data.message || 'Mã OTP không chính xác');
 
       toast.success('Xác thực OTP thành công! Hãy đặt lại mật khẩu của bạn.');
-      // navigate('/reset-password');
+      navigate('/resetpassword');
     } catch (err) {
       console.error(err);
       toast.error(err.message);

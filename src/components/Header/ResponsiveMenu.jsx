@@ -1,10 +1,16 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
-import { Link, useLocation } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
+import { useState } from "react";
 
 const ResponsiveMenu = ({ open, setOpen }) => {
-  const location = useLocation();
-  const categories = ['Hot', 'Rice', 'Noodle', 'Bread', 'Beverage'];
+  const categories = ['Home', 'New', 'Hot', 'About Us'];
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    setOpen(false);
+  };
 
   return (
     <AnimatePresence mode="wait">
@@ -14,7 +20,7 @@ const ResponsiveMenu = ({ open, setOpen }) => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: "-100%" }}
           transition={{ duration: 0.4 }}
-          className="absolute top-0 left-0 w-full h-screen z-20 bg-orange-600 text-white"
+          className="fixed top-0 left-0 w-full h-screen z-20 bg-orange-600 text-white"
         >
           {/* Nút đóng */}
           <button
@@ -25,26 +31,41 @@ const ResponsiveMenu = ({ open, setOpen }) => {
             <AiOutlineClose />
           </button>
 
-          <div className="text-xl font-semibold py-10 m-6">
-            <ul className="flex flex-col justify-center items-center gap-10 h-full text-2xl uppercase tracking-wide">
-              {categories.map((cat) => {
-                const isActive = location.pathname === `/category/${cat}`;
+          <div className="flex flex-col items-center justify-center h-full">
+            <ul className="flex flex-col items-center gap-8 text-2xl uppercase">
+              {categories.map((category) => {
+                const categoryId = category.toLowerCase().replace(/\s+/g, '-');
+                const isActive = activeCategory === categoryId;
+                
                 return (
-                  <li
-                    key={cat}
-                    className={`transition duration-200 ${
-                      isActive
-                        ? "text-orange-900 font-bold underline"
-                        : "hover:text-orange-900"
-                    }`}
+                  <motion.li 
+                    key={category}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <Link
-                      to={`/category/${cat}`}
-                      onClick={() => setOpen(false)}
+                    <ScrollLink
+                      to={categoryId}
+                      smooth={true}
+                      duration={500}
+                      offset={-80}
+                      onClick={() => handleCategoryClick(categoryId)}
+                      className={`relative cursor-pointer px-4 py-2 transition-all ${
+                        isActive 
+                          ? "text-orange-900 font-bold" 
+                          : "text-white hover:text-orange-300"
+                      }`}
                     >
-                      {cat}
-                    </Link>
-                  </li>
+                      {category}
+                      {isActive && (
+                        <motion.span
+                          layoutId="activeIndicator"
+                          className="absolute left-0 bottom-0 w-full h-1 bg-orange-900 rounded-full"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      )}
+                    </ScrollLink>
+                  </motion.li>
                 );
               })}
             </ul>

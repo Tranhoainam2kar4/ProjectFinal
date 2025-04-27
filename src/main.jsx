@@ -23,7 +23,6 @@ import Dashboard from "./ADMIN/AdminContent/Dashboard";
 import Product from "./ADMIN/AdminContent/Product";
 import Order from "./ADMIN/AdminContent/Order";
 import User from "./ADMIN/AdminContent/User";
-import Message from "./ADMIN/AdminContent/Message";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import CartPage from "./pages/CartPage/CartPage";
 import ForgotPassword from "./components/Form/ForgotPassword";
@@ -62,7 +61,6 @@ const router = createBrowserRouter([
       { path: "product", element: <Product /> },
       { path: "order", element: <Order /> },
       { path: "user", element: <User /> },
-      { path: "message", element: <Message /> },
     ],
   },
 ]);

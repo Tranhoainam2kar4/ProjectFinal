@@ -7,7 +7,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
   const navigate = useNavigate();
@@ -16,22 +16,22 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/login', {
+      const res = await fetch('http://localhost:8080/api/v1/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Login failed');
 
       // Lưu token và thông tin user
-      if (remember) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-      } else {
-        sessionStorage.setItem('token', data.token);
-        sessionStorage.setItem('user', JSON.stringify(data.user));
-      }
+      // if (remember) {
+      //   localStorage.setItem('token', data.token);
+      //   localStorage.setItem('user', JSON.stringify(data.user));
+      // } else {
+      //   sessionStorage.setItem('token', data.token);
+      //   sessionStorage.setItem('user', JSON.stringify(data.user));
+      // }
 
       toast.success('Đăng nhập thành công!');
       navigate('/');
@@ -42,30 +42,34 @@ const Login = () => {
   };
 
   // Xử lý Google Login
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        const res = await fetch('/api/google-login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: tokenResponse.credential || tokenResponse.access_token }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Google login failed');
+  // const handleGoogleLogin = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     try {
+  //       const res = await fetch('/oauth2/authorization/google', {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({ token: tokenResponse.credential || tokenResponse.access_token }),
+  //       });
+  //       const data = await res.json();
+  //       if (!res.ok) throw new Error(data.message || 'Google login failed');
+  //
+  //       // Lưu token và thông tin user
+  //       sessionStorage.setItem('token', data.token);
+  //       sessionStorage.setItem('user', JSON.stringify(data.user));
+  //
+  //       toast.success('Đăng nhập với Google thành công!');
+  //       navigate('/');
+  //     } catch (err) {
+  //       console.error(err);
+  //       toast.error(err.message);
+  //     }
+  //   },
+  //   onError: () => toast.error('Đăng nhập với Google thất bại!'),
+  // });
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
 
-        // Lưu token và thông tin user
-        sessionStorage.setItem('token', data.token);
-        sessionStorage.setItem('user', JSON.stringify(data.user));
-
-        toast.success('Đăng nhập với Google thành công!');
-        navigate('/');
-      } catch (err) {
-        console.error(err);
-        toast.error(err.message);
-      }
-    },
-    onError: () => toast.error('Đăng nhập với Google thất bại!'),
-  });
 
   return (
     <div>
@@ -74,15 +78,15 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <div className="relative my-4">
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               className="block w-72 py-2.5 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:text-white focus:border-orange-700 peer"
               placeholder=""
             />
             <label className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-orange-700">
-              Your Email
+              Your Username
             </label>
             <BiUser className="absolute top-4 right-4" />
           </div>
